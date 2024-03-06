@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Money Division Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 16px; /* Larger font size for easier interaction */
+        }
+        button {
+            width: 100%; /* Easier to tap on mobile */
+            cursor: pointer;
+        }
+        #contributionsContainer {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // JavaScript functions remain the same
+        function addInput() {
+            var container = document.getElementById("contributionsContainer");
+            var input = document.createElement("input");
+            input.type = "number";
+            input.name = "contribution";
+            container.appendChild(input);
+            container.appendChild(document.createElement("br"));
+        }
+
+        function removeInput() {
+            var container = document.getElementById("contributionsContainer");
+            if (container.childElementCount > 2) {
+                container.removeChild(container.lastChild);
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function calculate() {
+            event.preventDefault(); // Prevent form from submitting
+
+            var inputs = document.getElementsByName("contribution");
+            var contributions = [];
+            for (var i = 0; i < inputs.length; i++) {
+                contributions.push(parseInt(inputs[i].value, 10));
+            }
+
+            var num_of_ppl = parseInt(document.getElementById('num_of_ppl').value, 10);
+            var total = contributions.reduce((a, b) => a + b, 0);
+            var money_each = Math.floor(total / num_of_ppl);
+            var balances = contributions.map(contribution => contribution - money_each);
+
+            document.getElementById('results').innerHTML = 'Balances for each contributor: ' + balances.join(', ') + '<br>Money each person gets: ' + money_each;
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Dynamic Money Division Calculator</h2>
+
+    <form onsubmit="calculate()">
+        <div id="contributionsContainer">
+            <label>Contributions:</label><br>
+            <input type="number" name="contribution"><br>
+        </div>
+        <button type="button" onclick="addInput()">Add Contributor</button>
+        <button type="button" onclick="removeInput()">Remove Contributor</button><br>
+        
+        <label for="num_of_ppl">Number of People:</label><br>
+        <input type="number" id="num_of_ppl" name="num_of_ppl" required><br><br>
+        
+        <input type="submit" value="Calculate">
+    </form>
+
+    <div id="results"></div>
+
+</body>
+</html>
+
