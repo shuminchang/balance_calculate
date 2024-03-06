@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Responsive Money Division Calculator</title>
+    <title>分帳君</title>
     <style>
         body, html {
             margin: 0;
@@ -13,7 +13,7 @@
             font-family: Arial, sans-serif;
             position: relative;
         }
-        .container {
+        .container, .contributor-container {
             position: relative;
             max-width: 800px;
             margin: 20px auto;
@@ -21,12 +21,25 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .form-input, .contributor-container > input {
+            padding: 10px;
+            margin: 5px 0;
+            flex: 1;
+            min-width: calc(50% - 10px);
         }
         .form-input, button {
             margin: 10px 0;
             padding: 10px;
             width: 100%;
             box-sizing: border-box;
+        }
+        .contributor-container > input:first-child {
+            margin-right: 10px;
         }
         button {
             cursor: pointer;
@@ -56,55 +69,78 @@
 
         function addInput() {
             var container = document.getElementById("contributionsContainer");
-            var input = document.createElement("input");
-            input.type = "number";
-            input.name = "contribution";
-            input.placeholder = "Contribution";
-            input.classList.add('form-input');
-            container.appendChild(input);
-            container.appendChild(document.createElement("br"));
+            
+            var inputContainer = document.createElement("div");
+            inputContainer.classList.add('contributor-container');
+
+            var nameInput = document.createElement("input");
+            nameInput.type = "text";
+            nameInput.name = "contributorName";
+            nameInput.placeholder = "代墊者";
+            nameInput.classList.add('form-input');
+
+            var contributionInput = document.createElement("input");
+            contributionInput.type = "number";
+            contributionInput.name = "contribution";
+            contributionInput.placeholder = "代墊金額";
+            contributionInput.classList.add('form-input');
+
+            inputContainer.appendChild(nameInput);
+            inputContainer.appendChild(contributionInput);
+            container.appendChild(inputContainer); // This appends a new, separate block for each contribution.
         }
+
 
         function removeInput() {
             var container = document.getElementById("contributionsContainer");
-            if (container.childElementCount > 2) {
-                container.removeChild(container.lastChild);
+            if (container.childElementCount > 0 ) {
                 container.removeChild(container.lastChild);
             }
         }
         
-        function calculate() {
+        function calculate(event) {
             event.preventDefault(); // Prevent form from submitting
 
+            var names = document.getElementsByName("contributorName");
             var inputs = document.getElementsByName("contribution");
+            var contributors = [];
             var contributions = [];
             for (var i = 0; i < inputs.length; i++) {
                 contributions.push(parseInt(inputs[i].value, 10));
+                contributors.push({name: names[i].value, contribution: parseInt(inputs[i].value, 10)});
             }
 
             var num_of_ppl = parseInt(document.getElementById('num_of_ppl').value, 10);
             var total = contributions.reduce((a, b) => a + b, 0);
             var money_each = Math.floor(total / num_of_ppl);
-            var balances = contributions.map(contribution => contribution - money_each);
+            var resultsHTML = '';
 
-            document.getElementById('results').innerHTML = 'Balances for each contributor: ' + balances.join(', ') + '<br>Money each person gets: ' + money_each;
+            contributors.forEach(contributor => {
+                var balance = contributor.contribution - money_each;
+                resultsHTML += contributor.name + ' 拿回： ' + balance + ' 元<br>';
+            })
+
+            resultsHTML += '其他人應該付出： ' + money_each + ' 元';
+
+            document.getElementById('results').innerHTML = resultsHTML;
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>Responsive Money Division Calculator</h2>
+        <h2>分帳君</h2>
     
-        <form onsubmit="calculate()">
-            <div id="contributionsContainer">
-                <input type="number" name="contribution" class="form-input" placeholder="Contribution"><br>
+        <form onsubmit="calculate(event)">
+            <div id="contributionsContainer" class="contributor-container">
+                <input type="text" name="contributorName" class="form-input" placeholder="代墊者">
+                <input type="number" name="contribution" class="form-input" placeholder="代墊金額"><br>
             </div>
-            <button type="button" onclick="addInput()">Add Contributor</button>
-            <button type="button" onclick="removeInput()">Remove Contributor</button><br>
+            <button type="button" onclick="addInput()">新增代墊項目</button>
+            <button type="button" onclick="removeInput()">移除代墊項目</button><br>
     
-            <input type="number" id="num_of_ppl" name="num_of_ppl" class="form-input" placeholder="Number of People" required><br><br>
+            <input type="number" id="num_of_ppl" name="num_of_ppl" class="form-input" placeholder="人數" required><br><br>
     
-            <input type="submit" class="form-input" value="Calculate">
+            <input type="submit" class="form-input" value="計算">
         </form>
     
         <div id="results"></div>
