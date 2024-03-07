@@ -1,0 +1,45 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #AED6F1;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+.container, .contributor-container {
+    position: relative;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.form-input, .contributor-container > input {
+    padding: 10px;
+    margin: 5px 0;
+    flex: 1;
+    min-width: calc(50% - 10px);
+}
+.form-input, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.contributor-container > input:first-child {
+    margin-right: 10px;
+}
+button {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+#contributionsContainer {
+    margin-bottom: 20px;
+}
