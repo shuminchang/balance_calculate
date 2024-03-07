@@ -6,6 +6,9 @@
 ###npm install pg
 ###npm install cors
 
+# need to manually create table
+run create_records.sql
+
 # api test
 curl -X POST http://localhost:3000/addRecord -H "Content-Type: application/json" -d '{"date":"2023-01-01","contributors":[{"name":"John Doe","contribution":100}],"moneyEach":50}' 
 
