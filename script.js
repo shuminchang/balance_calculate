@@ -126,8 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
             var recordElement = document.createElement('div');
             recordElement.classList.add('record');
 
+            // Format the date to the desired format
+            var formattedDate = formatDate(new Date(record.date));
+
             var dateElement = document.createElement('p');
-            dateElement.textContent = `紀錄時間: ${record.date}`;
+            dateElement.textContent = `紀錄時間: ${formattedDate}`;
             recordElement.appendChild(dateElement);
 
             var contributorsList = document.createElement('ul');
@@ -180,5 +183,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function escapeHTML(str) {
         return str.replace(/[&<>'"]/g, 
             tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        var seconds = date.getSeconds().toString().padStart(2, '0');
+        var ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+    
+        return `${year}/${month}/${day}, ${hours}:${minutes}:${seconds} ${ampm}`;
     }
 });
