@@ -34,9 +34,15 @@ body, html {
 .contributor-container > input:first-child {
     margin-right: 10px;
 }
-button {
+#addContributor {
     cursor: pointer;
     background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+#removeContributor {
+    cursor: pointer;
+    background-color: #f13b3b;
     color: white;
     border: none;
 }

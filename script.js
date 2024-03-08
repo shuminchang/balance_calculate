@@ -20,33 +20,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addInput() {
-        var container = document.getElementById("contributionsContainer");
-        
+        var contributionsContainer = document.getElementById("contributionsContainer");
+    
         var inputContainer = document.createElement("div");
         inputContainer.classList.add('contributor-container');
-
+    
         var nameInput = document.createElement("input");
         nameInput.type = "text";
         nameInput.name = "contributorName";
         nameInput.placeholder = "代墊者";
         nameInput.classList.add('form-input');
-
+    
         var contributionInput = document.createElement("input");
         contributionInput.type = "number";
         contributionInput.name = "contribution";
         contributionInput.placeholder = "代墊金額";
         contributionInput.classList.add('form-input');
-
+    
         inputContainer.appendChild(nameInput);
         inputContainer.appendChild(contributionInput);
-        container.appendChild(inputContainer); // This appends a new, separate block for each contribution.
+    
+        // Insert the new input container just after the existing contributionsContainer
+        contributionsContainer.parentNode.insertBefore(inputContainer, contributionsContainer.nextSibling);
     }
 
-
     function removeInput() {
-        var container = document.getElementById("contributionsContainer");
-        if (container.childElementCount > 0 ) {
-            container.removeChild(container.lastChild);
+        var contributionsContainer = document.getElementById("contributionForm");
+        
+        // Select the last child with class 'contributor-container' and remove it
+        var allDivs = contributionsContainer.querySelectorAll('div');
+        console.log(allDivs.length);
+        if (allDivs.length > 1) {
+            allDivs[allDivs.length - 1].remove();
         }
     }
     
