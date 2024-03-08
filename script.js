@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addContributor').addEventListener('click', addInput);
     document.getElementById('removeContributor').addEventListener('click', removeInput);
     document.getElementById('contributionForm').addEventListener('submit', calculate);
+    document.getElementById('clearForm').addEventListener('click', clearForm);
 
     const formInputs = document.querySelectorAll('.form-ipnut, .form-select');
 
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Select the last child with class 'contributor-container' and remove it
         var allDivs = contributionsContainer.querySelectorAll('div');
-        console.log(allDivs.length);
+
         if (allDivs.length > 1) {
             allDivs[allDivs.length - 1].remove();
         }
@@ -157,6 +158,23 @@ document.addEventListener('DOMContentLoaded', function() {
             noRecordsMsg.textContent = '沒有找到計算紀錄。';
             recordsContainer.appendChild(noRecordsMsg);
         }
+    }
+
+    function clearForm() {
+        // Reset the form
+        document.getElementById('contributionForm').reset();
+
+        // Remove any dynamically added input containers
+        var contributionsContainer = document.getElementById('contributionsContainer');
+        var dynamicInputs = document.querySelectorAll('.contributor-container:not(:first-child)');
+    
+        dynamicInputs.forEach(inputContainer => {
+            contributionsContainer.removeChild(inputContainer);
+        });
+
+        // Clear the results and records
+        document.getElementById('results').innerHTML = '';
+        document.getElementById('recordsContainer').innerHTML = '';
     }
 
     function escapeHTML(str) {

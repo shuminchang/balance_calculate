@@ -39,13 +39,30 @@ body, html {
     background-color: #4CAF50;
     color: white;
     border: none;
+    border-radius: 10px;
 }
 #removeContributor {
     cursor: pointer;
     background-color: #f13b3b;
     color: white;
     border: none;
+    border-radius: 10px;
+}
+#clearForm {
+    cursor: pointer;
+    background-color: #544f4f;
+    color: white;
+    border: none;
+    border-radius: 10px;
 }
 #contributionsContainer {
     margin-bottom: 20px;
+}
+#calculate {
+    border-radius: 10px;
+}
+.button-container {
+    display: flex;
+    gap: 10px; /* Adjust the spacing between buttons as needed */
+    margin-bottom: 10px; /* Optional margin for spacing below the buttons */
 }

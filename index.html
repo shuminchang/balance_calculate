@@ -11,14 +11,17 @@
     <div class="container">
         <h2>分帳君</h2>
         <form id="contributionForm">
-            <button type="button" id="addContributor">新增代墊項目</button>
-            <button type="button" id="removeContributor">移除代墊項目</button><br>
+            <div class="button-container">
+                <button type="button" id="addContributor">新增代墊項目</button>
+                <button type="button" id="removeContributor">移除代墊項目</button>
+                <button type="button" id="clearForm">清除輸入</button>
+            </div>
             <div id="contributionsContainer" class="contributor-container">
                 <input type="text" name="contributorName" class="form-input" placeholder="代墊者">
                 <input type="number" name="contribution" class="form-input" placeholder="代墊金額"><br>
             </div>
             <input type="number" id="numOfPeople" name="numOfPeople" class="form-input" placeholder="人數" required><br><br>
-            <input type="submit" class="form-input" value="計算">
+            <input id="calculate" type="submit" class="form-input" value="計算">
         </form>
         <div id="results"></div>
         <div id="recordsContainer"></div>
