@@ -108,3 +108,51 @@ h2, .view-counter {
         justify-content: center;
     }
 }
+
+/* Container for all records */
+#recordsContainer {
+    margin-top: 20px;
+}
+
+/* Individual record styling */
+.record {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Date and moneyEach styling */
+.record > p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Contributors list styling */
+.record ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.record ul li {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Separator styling */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Heading styling */
+#recordsContainer > h3 {
+    color: #444;
+    margin-bottom: 15px;
+}
