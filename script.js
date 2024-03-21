@@ -58,41 +58,44 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function calculate(event) {
         event.preventDefault(); // Prevent form from submitting
-
+    
         var names = document.getElementsByName("contributorName");
         var inputs = document.getElementsByName("contribution");
         var contributors = [];
         var contributions = [];
         for (var i = 0; i < inputs.length; i++) {
             contributions.push(parseInt(inputs[i].value, 10));
-            contributors.push({name: escapeHTML(names[i].value), contribution: parseInt(inputs[i].value, 10)});
+            var contribution = parseInt(inputs[i].value, 10);
+            contributors.push({name: escapeHTML(names[i].value), contribution: contribution});
         }
-
+    
         var num_of_ppl = parseInt(document.getElementById('numOfPeople').value, 10);
         var total = contributions.reduce((a, b) => a + b, 0);
         var money_each = Math.floor(total / num_of_ppl);
         var resultsHTML = '';
-
-        contributors.forEach(contributor => {
+    
+        contributors = contributors.map(contributor => {
             var balance = contributor.contribution - money_each;
-            resultsHTML += contributor.name + ' 拿回： ' + balance + ' 元<br>';
-        })
-
-        resultsHTML += '其他人應該付出： ' + money_each + ' 元';
-
+            resultsHTML += `${contributor.name} 拿回：${balance} 元<br>`;
+            return { ...contributor, balance: balance }; // Include balance in the contributor object
+        });
+    
+        resultsHTML += `其他人應該付出：${money_each} 元`;
+    
         document.getElementById('results').innerHTML = resultsHTML;
-
-        // Storing the record
+    
+        // Adjusted to pass contributors with balance included
         var calculationRecord = {
-            date: new Date().toISOString(), // Record the calculation time
-            contributors: contributors,
+            date: new Date().toISOString(),
+            contributors: contributors, // This now includes balance for each contributor
             moneyEach: money_each
         };
-
+    
         storeRecord(calculationRecord);
         
         renderRecords();
     }
+    
     
     function storeRecord(record) {
         // Retrieve existing records from localStorage, or initialize an empty array if none exist
@@ -102,60 +105,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderRecords() {
-        // Retrieve the records from localStorage
         var records = JSON.parse(localStorage.getItem('calculationRecords')) || [];
-
-        // Find or create a container in your HTML for the records
         var recordsContainer = document.getElementById('recordsContainer');
         if (!recordsContainer) {
             recordsContainer = document.createElement('div');
             recordsContainer.id = 'recordsContainer';
-            document.body.appendChild(recordsContainer); // Append it to body or another container as needed
+            document.body.appendChild(recordsContainer);
         }
-
-        // Clear existing records to avoid duplication
+    
         recordsContainer.innerHTML = '';
-
-        // Heading for the records section
+    
         var heading = document.createElement('h3');
         heading.textContent = '計算紀錄';
         recordsContainer.appendChild(heading);
-
-        // Loop through the records and create elements for each record
+    
         records.forEach((record, index) => {
             var recordElement = document.createElement('div');
             recordElement.classList.add('record');
-
-            // Format the date to the desired format
             var formattedDate = formatDate(new Date(record.date));
-
             var dateElement = document.createElement('p');
             dateElement.textContent = `紀錄時間: ${formattedDate}`;
             recordElement.appendChild(dateElement);
-
+    
             var contributorsList = document.createElement('ul');
             record.contributors.forEach(contributor => {
                 var li = document.createElement('li');
-                li.textContent = `${contributor.name}: ${contributor.contribution} 元`;
+                li.textContent = `${contributor.name}: 代墊了 ${contributor.contribution} 元, 拿回 ${contributor.balance} 元`;
                 contributorsList.appendChild(li);
             });
             recordElement.appendChild(contributorsList);
-
+    
             var moneyEachElement = document.createElement('p');
             moneyEachElement.textContent = `其他人應該付出: ${record.moneyEach} 元`;
             recordElement.appendChild(moneyEachElement);
-
-            // Append the record element to the records container
             recordsContainer.appendChild(recordElement);
-
-            // Optionally, add a separator or styling to distinguish between records
+    
             if (index < records.length - 1) {
                 var separator = document.createElement('hr');
                 recordsContainer.appendChild(separator);
             }
         });
-
-        // If no records are found, display a message
+    
         if (records.length === 0) {
             var noRecordsMsg = document.createElement('p');
             noRecordsMsg.textContent = '沒有找到計算紀錄。';
