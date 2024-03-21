@@ -180,6 +180,37 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('recordsContainer').innerHTML = '';
     }
 
+    // View counter logic
+    function updateViewCounter() {
+        // Retrieve the current view count from localStorage, or initialize it to 0 if it doesn't exist
+        let viewCount = parseInt(localStorage.getItem('viewCount')) || 0;
+
+        // Increment the view count
+        viewCount++;
+
+        // Update localStorage with the new view count
+        localStorage.setItem('viewCount', viewCount.toString());
+
+        // Display the view count on the webpage
+        const viewCounterElement = document.getElementById('viewCounter') || createViewCounterElement();
+        viewCounterElement.textContent = `瀏覽次數：${viewCount}`;
+    }
+
+    function createViewCounterElement() {
+        // Create a new element to display the view count
+        const viewCounterElement = document.createElement('div');
+        viewCounterElement.id = 'viewCounter';
+        
+        // Optionally, add any styling or classes to the viewCounterElement here
+
+        // Append the view counter element to a container on your webpage
+        document.body.appendChild(viewCounterElement); // This could be appended elsewhere depending on your layout
+
+        return viewCounterElement;
+    }
+
+    updateViewCounter();
+
     function escapeHTML(str) {
         return str.replace(/[&<>'"]/g, 
             tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));

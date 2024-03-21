@@ -8,23 +8,23 @@ body, html {
 }
 .container, .contributor-container {
     position: relative;
+    flex-direction: row; /* Align children horizontally */
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
+
+/* Removed flex display styles from .container and .contributor-container */
+
 .form-input, .contributor-container > input {
     padding: 10px;
     margin: 5px 0;
-    flex: 1;
-    min-width: calc(50% - 10px);
+    width: 100%; /* Adjusted for consistent styling */
 }
+
 .form-input, button {
     margin: 10px 0;
     padding: 10px;
@@ -65,4 +65,46 @@ body, html {
     display: flex;
     gap: 10px; /* Adjust the spacing between buttons as needed */
     margin-bottom: 10px; /* Optional margin for spacing below the buttons */
+}
+h2, .view-counter {
+    flex: 1; /* Allow both children to grow and occupy equal space */
+    min-height: 50px; /* Adjust based on your design */
+    display: flex;
+    align-items: center; /* Center-align the text vertically */
+    justify-content: center; /* Center-align the text horizontally */
+}
+
+/* Additional styling for the view counter for consistency */
+.view-counter {
+    text-align: center; /* Ensure the text is centered */
+    padding: 0 10px; /* Adjust padding as needed */
+    /* Add more styling as needed */
+}
+
+/* Add flexbox styles for smaller screens */
+@media (max-width: 768px) {
+    .container, .contributor-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .form-input, .contributor-container > input {
+        flex: 1;
+        min-width: calc(50% - 10px);
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    h2, .view-counter {
+        flex: 1;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
