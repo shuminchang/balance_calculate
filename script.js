@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
         heading.textContent = '計算紀錄';
         recordsContainer.appendChild(heading);
     
-        records.forEach((record, index) => {
+        // Reverse the records array to display from most recent to earliest
+        records.reverse().forEach((record, index) => {
             var recordElement = document.createElement('div');
             recordElement.classList.add('record');
             var formattedDate = formatDate(new Date(record.date));
@@ -140,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             recordElement.appendChild(moneyEachElement);
             recordsContainer.appendChild(recordElement);
     
+            // Optionally, add a separator or styling to distinguish between records
             if (index < records.length - 1) {
                 var separator = document.createElement('hr');
                 recordsContainer.appendChild(separator);
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             noRecordsMsg.textContent = '沒有找到計算紀錄。';
             recordsContainer.appendChild(noRecordsMsg);
         }
-    }
+    }    
 
     function clearForm() {
         // Reset the form
